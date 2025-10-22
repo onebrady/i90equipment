@@ -150,12 +150,18 @@ const ManacStepDeck = () => {
                 <div style={{ width: "100%", minHeight: "546px" }}>
                   <iframe
                     src="https://links.resultreach.com/widget/form/9fY8ydtCiOWoUKgu7aXm"
-                    style={{ width: "100%", height: "546px", border: "none", borderRadius: "3px" }}
-                    id="inline-product-form-2"
+                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px" }}
+                    id="inline-9fY8ydtCiOWoUKgu7aXm"
                     data-layout='{"id":"INLINE"}'
                     data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
                     data-form-name="Contact Form"
                     data-height="546"
+                    data-layout-iframe-id="inline-9fY8ydtCiOWoUKgu7aXm"
                     data-form-id="9fY8ydtCiOWoUKgu7aXm"
                     title="Contact Form"
                   />
