@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Facebook } from "lucide-react";
 
 const Footer = () => {
@@ -27,37 +28,87 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <Link to="/contact" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 2: Trailer Types */}
           <div>
             <h3 className="text-lg font-bold mb-4">Trailer Types</h3>
             <ul className="space-y-2">
-              <li className="text-primary-foreground/80">Lowboy Trailers</li>
-              <li className="text-primary-foreground/80">Side Dump Trailers</li>
-              <li className="text-primary-foreground/80">Belly Dump Trailers</li>
-              <li className="text-primary-foreground/80">Flatbed Trailers</li>
-              <li className="text-primary-foreground/80">Step Deck Trailers</li>
-              <li className="text-primary-foreground/80">RGN Trailers</li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Lowboy Trailers
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Side Dump Trailers
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Belly Dump Trailers
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Flatbed Trailers
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Step Deck Trailers
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  RGN Trailers
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Column 3: Brands */}
           <div>
             <h3 className="text-lg font-bold mb-4">Brands</h3>
             <ul className="space-y-2">
-              <li className="text-primary-foreground/80">XL Specialized</li>
-              <li className="text-primary-foreground/80">Smithco</li>
-              <li className="text-primary-foreground/80">Ranco</li>
-              <li className="text-primary-foreground/80">Dragon</li>
-              <li className="text-primary-foreground/80">Midland</li>
-              <li className="text-primary-foreground/80">Choice</li>
-              <li className="text-primary-foreground/80">Manac</li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  XL Specialized
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Smithco
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Ranco
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Dragon
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Midland
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Choice
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Manac
+                </Link>
+              </li>
             </ul>
           </div>
 

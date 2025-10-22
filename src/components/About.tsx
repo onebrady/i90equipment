@@ -2,7 +2,7 @@ import wesleyImage from "@/assets/wesley-stewart.webp";
 
 const About = () => {
   return (
-    <section className="py-20 bg-light-gray">
+    <section id="about" className="py-20 bg-light-gray">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}
