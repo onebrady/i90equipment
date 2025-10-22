@@ -55,7 +55,7 @@ const Financing = () => {
                   data-fillout-embed-type="standard"
                   data-fillout-inherit-parameters
                   data-fillout-dynamic-resize
-                />
+                ></div>
               </div>
 
               <p className="text-center text-muted-foreground">
