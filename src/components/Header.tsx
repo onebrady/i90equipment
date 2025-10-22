@@ -30,12 +30,12 @@ const Header = () => {
             >
               Inventory
             </Link>
-            <Link 
-              to="/#financing" 
+            <a 
+              href="/#financing" 
               className="text-sm font-medium text-foreground hover:text-secondary transition-colors"
             >
               Financing
-            </Link>
+            </a>
             <Link 
               to="/contact" 
               className="text-sm font-medium text-foreground hover:text-secondary transition-colors"
