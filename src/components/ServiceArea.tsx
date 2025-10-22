@@ -73,10 +73,10 @@ const ServiceArea = () => {
                   <div>
                     <div className="font-semibold text-foreground">Phone</div>
                     <a 
-                      href="tel:+1406XXXXXXX" 
+                      href="tel:+14069392153" 
                       className="text-secondary hover:underline"
                     >
-                      (406) XXX-XXXX
+                      (406) 939-2153
                     </a>
                   </div>
                 </div>
@@ -86,10 +86,10 @@ const ServiceArea = () => {
                   <div>
                     <div className="font-semibold text-foreground">Email</div>
                     <a 
-                      href="mailto:info@i90equipment.com"
+                      href="mailto:I90equipment@gmail.com" 
                       className="text-secondary hover:underline"
                     >
-                      info@i90equipment.com
+                      I90equipment@gmail.com
                     </a>
                   </div>
                 </div>

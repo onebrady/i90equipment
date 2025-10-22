@@ -50,23 +50,22 @@ const Financing = () => {
                 
                 {/* Finance Application Embed */}
                 <div 
-                  style={{ width: "100%", minHeight: "500px" }}
+                  style={{ width: "100%", height: "500px" }}
                   data-fillout-id="1sSpToAvcRus"
                   data-fillout-embed-type="standard"
                   data-fillout-inherit-parameters
                   data-fillout-dynamic-resize
-                  className="bg-background rounded"
                 />
               </div>
 
               <p className="text-center text-muted-foreground">
                 Questions about financing? Call us at{" "}
-                <a href="tel:+1406XXXXXXX" className="text-secondary hover:underline font-semibold">
-                  (406) XXX-XXXX
+                <a href="tel:+14069392153" className="text-secondary hover:underline font-semibold">
+                  (406) 939-2153
                 </a>{" "}
                 or email{" "}
-                <a href="mailto:finance@i90equipment.com" className="text-secondary hover:underline font-semibold">
-                  finance@i90equipment.com
+                <a href="mailto:I90equipment@gmail.com" className="text-secondary hover:underline font-semibold">
+                  I90equipment@gmail.com
                 </a>{" "}
                 to speak with a financing specialist.
               </p>

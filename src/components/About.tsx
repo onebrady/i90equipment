@@ -1,4 +1,4 @@
-import wesleyImage from "@/assets/wesley-stewart.jpg";
+import wesleyImage from "@/assets/wesley-stewart.webp";
 
 const About = () => {
   return (

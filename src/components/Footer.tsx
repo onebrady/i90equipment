@@ -68,13 +68,13 @@ const Footer = () => {
               <p>70 Pipkin Way</p>
               <p>Belgrade, MT 59714</p>
               <p>
-                <a href="tel:+1406XXXXXXX" className="hover:text-primary-foreground transition-colors">
-                  (406) XXX-XXXX
+                <a href="tel:+14069392153" className="hover:text-primary-foreground transition-colors">
+                  (406) 939-2153
                 </a>
               </p>
               <p>
-                <a href="mailto:info@i90equipment.com" className="hover:text-primary-foreground transition-colors">
-                  info@i90equipment.com
+                <a href="mailto:I90equipment@gmail.com" className="hover:text-primary-foreground transition-colors">
+                  I90equipment@gmail.com
                 </a>
               </p>
               <p className="pt-2">Monday-Friday: 8-5 PM MT</p>

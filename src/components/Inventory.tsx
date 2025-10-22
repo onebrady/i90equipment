@@ -26,17 +26,8 @@ const inventoryItems: InventoryItem[] = [
     type: "Step Deck Trailer",
     condition: "Used",
     price: "$49,900",
-    imageUrl: "https://cdn.prod.website-files.com/66c252c90e6c11373f18e6d6/677e9dc5c92fcdb9ba43e92e_2023-Manac-53-ft-Stepdeck-Trailer-3.webp",
+    imageUrl: "https://cdn.prod.website-files.com/66c252c90e6c11373f18e6d6/681246904c0489b7208d6e2b_2023-Manac-53-ft-Stepdeck-Trailer-1.webp",
     description: "Premium Manac step deck trailer with 53-foot length. Perfect for oversized cargo and construction equipment transport.",
-  },
-  {
-    title: "2016 Reitnouer B-Train",
-    type: "Flatbed B-Train",
-    condition: "Used",
-    price: "$62,900",
-    imageUrl: "https://cdn.prod.website-files.com/66c252c90e6c11373f18e6d6/677e8fcbe81fdb5acb6f4aac_2016-Reitnouer-B-Train-1.webp",
-    description: "Reitnouer B-Train flatbed configuration. Proven workhorse for heavy hauling operations.",
-    qty: 2,
   },
   {
     title: "2023 Alpha HD A80MG Lowboy Trailer",
@@ -67,7 +58,7 @@ const inventoryItems: InventoryItem[] = [
     type: "Commercial Truck",
     condition: "Used",
     price: "$72,900",
-    imageUrl: "https://cdn.prod.website-files.com/66c252c90e6c11373f18e6d6/677e8e2c9f5c21cb7f533d93_2020-Freightliner-Cascadia-3.webp",
+    imageUrl: "https://cdn.prod.website-files.com/66c252c90e6c11373f18e6d6/6786dc5ded4f30fc6258554b_2020-Freightliner-Cascadia-1.webp",
     description: "2020 Freightliner Cascadia highway tractor. Reliable power for long-haul trailer operations.",
   },
 ];
