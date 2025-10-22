@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Phone, FileText, DollarSign } from "lucide-react";
 
@@ -21,21 +22,17 @@ const CTA = () => {
               <Phone className="w-5 h-5 mr-2" />
               Call Now: (406) 939-2153
             </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold"
-            >
-              <FileText className="w-5 h-5 mr-2" />
-              Request a Quote
+            <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold">
+              <Link to="/contact">
+                <FileText className="w-5 h-5 mr-2" />
+                Request a Quote
+              </Link>
             </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold"
-            >
-              <DollarSign className="w-5 h-5 mr-2" />
-              Apply for Financing
+            <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold">
+              <Link to="/contact">
+                <DollarSign className="w-5 h-5 mr-2" />
+                Apply for Financing
+              </Link>
             </Button>
           </div>
         </div>

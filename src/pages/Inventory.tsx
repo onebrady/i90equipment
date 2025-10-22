@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -72,65 +74,67 @@ const inventoryItems: InventoryItem[] = [
 
 const Inventory = () => {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Premium Construction Trailers Available Now
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Quality equipment from the industry's most trusted manufacturers
-          </p>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      
+      <main className="flex-1">
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
+                Available Inventory
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Quality construction trailers and heavy haul trucks from the industry's most trusted manufacturers
+              </p>
+            </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {inventoryItems.map((item) => (
-            <Card key={item.slug} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="p-0">
-                <div className="relative h-64 overflow-hidden">
-                  <img 
-                    src={item.imageUrl}
-                    alt={`${item.title} - ${item.type} for sale in Montana`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {inventoryItems.map((item) => (
+                <Card key={item.slug} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader className="p-0">
+                    <div className="relative h-64 overflow-hidden">
+                      <img 
+                        src={item.imageUrl}
+                        alt={`${item.title} - ${item.type} for sale in Montana`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
                       <Badge className="absolute top-4 right-4 bg-secondary text-secondary-foreground">
-                    {item.condition}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="mb-2">
-                  <Badge variant="outline" className="text-xs">
-                    {item.type}
-                  </Badge>
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2">
-                  {item.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                  {item.description}
-                </p>
-                <div className="text-3xl font-bold text-primary">
-                  {item.price}
-                </div>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground">
-                  <Link to={`/inventory/${item.slug}`}>View Details</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                        {item.condition}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="mb-2">
+                      <Badge variant="outline" className="text-xs">
+                        {item.type}
+                      </Badge>
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                      {item.description}
+                    </p>
+                    <div className="text-3xl font-bold text-primary">
+                      {item.price}
+                    </div>
+                  </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground">
+                      <Link to={`/inventory/${item.slug}`}>View Details</Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
-        <div className="text-center mt-12">
-          <Button asChild size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <Link to="/inventory">View Full Inventory</Link>
-          </Button>
-        </div>
-      </div>
-    </section>
+      <Footer />
+    </div>
   );
 };
 
