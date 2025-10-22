@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { FilloutStandardEmbed } from "@fillout/react";
 
 const benefits = [
   "Rates as low as 4.99% APR",
@@ -50,13 +50,13 @@ const Financing = () => {
                 </h3>
                 
                 {/* Finance Application Embed */}
-                <div 
-                  style={{ width: "100%", height: "500px" }}
-                  data-fillout-id="1sSpToAvcRus"
-                  data-fillout-embed-type="standard"
-                  data-fillout-inherit-parameters
-                  data-fillout-dynamic-resize
-                ></div>
+                <div style={{ width: "100%", height: "500px" }}>
+                  <FilloutStandardEmbed
+                    filloutId="1sSpToAvcRus"
+                    inheritParameters
+                    dynamicResize
+                  />
+                </div>
               </div>
 
               <p className="text-center text-muted-foreground">
