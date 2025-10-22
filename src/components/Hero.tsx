@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
@@ -30,19 +31,11 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button 
-              size="lg" 
-              variant="default"
-              className="bg-secondary hover:bg-secondary-hover text-secondary-foreground text-lg px-8 py-6 h-auto font-semibold"
-            >
-              View Inventory
+            <Button asChild size="lg" variant="default" className="bg-secondary hover:bg-secondary-hover text-secondary-foreground text-lg px-8 py-6 h-auto font-semibold">
+              <Link to="/inventory">View Inventory</Link>
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold"
-            >
-              Apply for Financing
+            <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold">
+              <Link to="/contact">Apply for Financing</Link>
             </Button>
           </div>
         </div>
