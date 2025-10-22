@@ -50,7 +50,7 @@ const Financing = () => {
                 </h3>
                 
                 {/* Finance Application Embed */}
-                <div style={{ width: "100%", height: "500px" }}>
+                <div style={{ width: "100%" }}>
                   <FilloutStandardEmbed
                     filloutId="1sSpToAvcRus"
                     inheritParameters
