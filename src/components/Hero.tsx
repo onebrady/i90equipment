@@ -40,7 +40,7 @@ const Hero = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold"
+              className="border-2 border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 h-auto font-semibold"
             >
               Apply for Financing
             </Button>
