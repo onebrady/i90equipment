@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/i90-logo.webp";
+import logo from "@/assets/i90-equipment-logo-header.webp";
 
 const Header = () => {
   return (
