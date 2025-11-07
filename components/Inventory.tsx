@@ -118,7 +118,7 @@ const Inventory = () => {
 
         <div className="text-center mt-12">
           <Button asChild size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <a href="#contact">Contact Us About Our Inventory</a>
+            <Link href="/inventory">View Our Inventory</Link>
           </Button>
         </div>
       </div>
