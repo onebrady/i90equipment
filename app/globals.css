@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* I90 Equipment Brand Colors */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 12%; /* Charcoal #1e1e1e */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 12%;
+
+    /* Navy Blue - Primary Brand */
+    --primary: 210 69% 23%; /* #0d3b66 */
+    --primary-foreground: 0 0% 100%;
+
+    /* Construction Orange - CTA */
+    --secondary: 28 83% 61%; /* #ee964b */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 5% 96%; /* Light Gray #f4f4f9 */
+    --muted-foreground: 210 11% 47%; /* Medium Gray #6c757d */
+
+    --accent: 28 83% 61%; /* Construction Orange */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 18% 87%;
+    --input: 210 18% 87%;
+    --ring: 210 69% 23%;
+
+    --radius: 0.5rem;
+
+    /* Custom Design Tokens */
+    --navy-dark: 210 80% 18%;
+    --navy-light: 210 60% 35%;
+    --orange-hover: 28 90% 55%;
+    --charcoal: 0 0% 12%;
+    --light-gray: 240 5% 96%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 12%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 210 69% 23%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 28 83% 61%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 210 11% 71%;
+
+    --accent: 28 83% 61%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 210 69% 35%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter), sans-serif;
+  }
+
+  /* Header Typography - Optimized for Rosarivo serif and Inter sans-serif */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+  }
+
+  /* Large Display Headers - Rosarivo Serif */
+  /* Type Scale Ratio: 1.25 (Major Third) - Each level is 1.25x smaller */
+
+  h1 {
+    font-family: var(--font-rosarivo), serif;
+    font-weight: 700;
+    font-size: 2.25rem; /* 36px - Primary hero heading (BASE) */
+    letter-spacing: 0.02em; /* Slightly wider for serif at large sizes */
+    line-height: 1.15;
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    font-family: var(--font-rosarivo), serif;
+    font-weight: 700;
+    font-size: 1.8rem; /* 28.8px - 2.25 ÷ 1.25 */
+    letter-spacing: 0.015em;
+    line-height: 1.2;
+    margin-bottom: 0.625em;
+  }
+
+  h3 {
+    font-family: var(--font-rosarivo), serif;
+    font-weight: 700;
+    font-size: 1.44rem; /* 23.04px - 1.8 ÷ 1.25 */
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+  }
+
+  /* UI Headers - Inter Sans-Serif */
+  h4 {
+    font-family: var(--font-inter), sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem; /* 18.4px - 1.44 ÷ 1.25 */
+    letter-spacing: -0.01em; /* Tighter for sans-serif clarity */
+    line-height: 1.4;
+  }
+
+  h5 {
+    font-family: var(--font-inter), sans-serif;
+    font-weight: 600;
+    font-size: 1rem; /* 16px - 1.15 ÷ 1.25 (rounded) */
+    letter-spacing: -0.005em;
+    line-height: 1.4;
+  }
+
+  h6 {
+    font-family: var(--font-inter), sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem; /* 14px - 1 ÷ 1.25 (rounded) */
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    @apply text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Description Content Styling */
+@layer components {
+  .prose {
+    @apply text-foreground;
+  }
+
+  /* Override prose defaults for better spacing in description content */
+  .prose h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose h3 {
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+  }
+
+  /* First heading shouldn't have top margin */
+  .prose > h2:first-child,
+  .prose > h3:first-child {
+    margin-top: 0;
+  }
+
+  .prose p {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .prose ul {
+    margin-top: 0.5em;
+    margin-bottom: 1.25em;
+    padding-left: 1.5em;
+    list-style-type: disc;
+  }
+
+  .prose ul li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-left: 0.25em;
+  }
+
+  .prose ul li::marker {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .prose strong {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  /* Spacing between list items */
+  .prose ul li + li {
+    margin-top: 0.5em;
+  }
+
+  /* Better spacing for nested content */
+  .prose h3 + ul {
+    margin-top: 0.75em;
+  }
+
+  .prose p + h3 {
+    margin-top: 1.5em;
+  }
+}
