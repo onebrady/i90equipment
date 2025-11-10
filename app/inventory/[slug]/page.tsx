@@ -7,6 +7,7 @@
 
 import { use, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Script from 'next/script';
 import { useInventoryItem } from '@/lib/hooks/use-inventory';
 import { parseInventoryItem, type InventoryItem } from '@/lib/smartsuite/helpers';
@@ -112,13 +113,16 @@ export default function InventoryItemPage({ params }: InventoryPageProps) {
             >
               {parsed.images && parsed.images.length > 0 ? (
                 <>
-                  <img
+                  <Image
                     src={parsed.images[selectedImageIndex]}
                     alt={parsed.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Zoom Icon Indicator */}
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white p-2 rounded-full group-hover:bg-black/80 transition-colors">
+                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white p-2 rounded-full group-hover:bg-black/80 transition-colors z-10">
                     <ZoomIn className="h-5 w-5" />
                   </div>
                 </>
@@ -136,16 +140,18 @@ export default function InventoryItemPage({ params }: InventoryPageProps) {
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${
+                    className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${
                       selectedImageIndex === index
                         ? 'border-primary shadow-md'
                         : 'border-transparent hover:border-gray-300'
                     }`}
                   >
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={`${parsed.title} thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="80px"
+                      className="object-cover"
                     />
                   </button>
                 ))}

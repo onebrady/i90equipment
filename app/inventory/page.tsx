@@ -6,6 +6,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useHomepageInventory } from '@/lib/hooks/use-inventory';
 import { parseInventoryItem, type InventoryItem } from '@/lib/smartsuite/helpers';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -89,11 +90,12 @@ export default function InventoryPage() {
                           <CardHeader className="p-0">
                             <div className="relative w-full bg-muted" style={{ aspectRatio: '1374 / 920' }}>
                               {parsed.firstImage ? (
-                                <img
+                                <Image
                                   src={parsed.firstImage}
                                   alt={`${parsed.title} - ${parsed.equipmentType} for sale in Montana`}
-                                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                  loading="lazy"
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                  className="object-cover hover:scale-105 transition-transform duration-300"
                                 />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -102,7 +104,7 @@ export default function InventoryPage() {
                               )}
                               {parsed.condition && (
                                 <Badge
-                                  className={`absolute top-4 right-4 ${
+                                  className={`absolute top-4 right-4 z-10 ${
                                     parsed.condition === 'New'
                                       ? 'bg-green-600 text-white hover:bg-green-700'
                                       : 'bg-blue-600 text-white hover:bg-blue-700'
