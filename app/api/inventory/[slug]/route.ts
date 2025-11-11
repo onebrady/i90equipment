@@ -58,56 +58,34 @@ export async function GET(
 
     const item = response.items[0];
 
-    // Fetch authenticated URLs for all images with robust error handling
+    // Fetch authenticated URLs for images with rate limiting
     const imageField = item.sc577d7e98;
     if (imageField && Array.isArray(imageField) && imageField.length > 0) {
-      const imagesWithUrls = [];
-      let successCount = 0;
-      let failCount = 0;
+      try {
+        // Collect all image handles
+        const imageHandles = imageField
+          .filter((img: any) => img.handle)
+          .map((img: any) => img.handle);
 
-      // Fetch URLs sequentially with delays to avoid rate limiting
-      for (let i = 0; i < imageField.length; i++) {
-        const image = imageField[i];
-        if (image.handle) {
-          try {
-            const imageUrl = await client.getFileUrl(image.handle);
-            if (imageUrl) {
-              imagesWithUrls.push({
-                ...image,
-                url: imageUrl,
-              });
-              successCount++;
-            } else {
-              // If getFileUrl returns null, try again with longer delay
-              console.warn(`First attempt failed for ${image.handle}, retrying...`);
-              await new Promise(resolve => setTimeout(resolve, 500));
-              const retryUrl = await client.getFileUrl(image.handle);
-              imagesWithUrls.push({
-                ...image,
-                url: retryUrl || `https://cdn.filestackcontent.com/${image.handle}`,
-              });
-              if (retryUrl) successCount++;
-              else failCount++;
-            }
-            // Progressive delay - increase delay as we process more images
-            const delay = 200 + (i * 50); // Start at 200ms, increase by 50ms per image
-            await new Promise(resolve => setTimeout(resolve, delay));
-          } catch (err) {
-            console.error(`Failed to fetch URL for ${image.handle}:`, err);
-            failCount++;
-            // Use fallback CDN URL as last resort
-            imagesWithUrls.push({
+        // Fetch URLs in batches (3 at a time, 500ms delay between batches)
+        const urlMap = await client.getFileUrls(imageHandles, 3, 500);
+
+        // Apply URLs to images
+        const imagesWithUrls = imageField.map((image: any) => {
+          if (image.handle && urlMap.has(image.handle)) {
+            return {
               ...image,
-              url: `https://cdn.filestackcontent.com/${image.handle}`,
-            });
+              url: urlMap.get(image.handle),
+            };
           }
-        } else {
-          imagesWithUrls.push(image);
-        }
-      }
+          return image;
+        });
 
-      console.log(`Image URL fetch: ${successCount} succeeded, ${failCount} failed/fallback`);
-      item.sc577d7e98 = imagesWithUrls;
+        item.sc577d7e98 = imagesWithUrls;
+      } catch (error) {
+        console.error('Error processing images:', error);
+        // Keep original image data if processing fails
+      }
     }
 
     return NextResponse.json(

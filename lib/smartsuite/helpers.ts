@@ -75,14 +75,15 @@ export function getFiles(field: any): Array<{
 }> {
   if (!field || !Array.isArray(field)) return [];
 
-  return field.map((file) => ({
-    handle: file.handle,
-    // Use the url field if available (from getFileUrl API), otherwise construct from handle
-    url: file.url || `https://cdn.filestackcontent.com/${file.handle}`,
-    filename: file.metadata?.filename || 'file',
-    mimetype: file.metadata?.mimetype || 'application/octet-stream',
-    size: file.metadata?.size || 0,
-  }));
+  return field
+    .filter((file) => file.url) // Only include files with URLs
+    .map((file) => ({
+      handle: file.handle,
+      url: file.url, // URL must be set by API route
+      filename: file.metadata?.filename || 'file',
+      mimetype: file.metadata?.mimetype || 'application/octet-stream',
+      size: file.metadata?.size || 0,
+    }));
 }
 
 /**

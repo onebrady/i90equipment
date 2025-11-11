@@ -111,26 +111,75 @@ export class SmartSuiteClient {
   /**
    * Get public URL for a file by its handle
    * The URL lifetime is 20 years
+   * Includes automatic retry with exponential backoff for rate limiting
    */
-  async getFileUrl(fileHandle: string): Promise<string | null> {
+  async getFileUrl(fileHandle: string, retryCount = 0): Promise<string | null> {
     const url = `${this.baseUrl}/shared-files/${fileHandle}/url/`;
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Token ${this.apiKey}`,
-        'ACCOUNT-ID': this.accountId,
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${this.apiKey}`,
+          'ACCOUNT-ID': this.accountId,
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (!response.ok) {
-      console.error(`Failed to get file URL for handle ${fileHandle}: ${response.status}`);
+      if (response.status === 429 && retryCount < 3) {
+        // Rate limited - wait and retry with exponential backoff
+        const delay = Math.min(1000 * Math.pow(2, retryCount), 5000); // Max 5 seconds
+        console.log(`Rate limited, retrying in ${delay}ms (attempt ${retryCount + 1}/3)`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.getFileUrl(fileHandle, retryCount + 1);
+      }
+
+      if (!response.ok) {
+        console.error(`Failed to get file URL for handle ${fileHandle}: ${response.status}`);
+        return null;
+      }
+
+      const data = await response.json();
+      return data.url || null;
+    } catch (error) {
+      console.error(`Error fetching file URL for ${fileHandle}:`, error);
       return null;
     }
+  }
 
-    const data = await response.json();
-    return data.url || null;
+  /**
+   * Get URLs for multiple files with rate limiting
+   * Processes in batches with delays to avoid hitting rate limits
+   */
+  async getFileUrls(fileHandles: string[], batchSize = 3, delayMs = 500): Promise<Map<string, string>> {
+    const urlMap = new Map<string, string>();
+
+    // Process in batches
+    for (let i = 0; i < fileHandles.length; i += batchSize) {
+      const batch = fileHandles.slice(i, i + batchSize);
+
+      // Fetch batch in parallel
+      const results = await Promise.all(
+        batch.map(async (handle) => {
+          const url = await this.getFileUrl(handle);
+          return { handle, url };
+        })
+      );
+
+      // Store results
+      results.forEach(({ handle, url }) => {
+        if (url) {
+          urlMap.set(handle, url);
+        }
+      });
+
+      // Delay before next batch (except for last batch)
+      if (i + batchSize < fileHandles.length) {
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+
+    return urlMap;
   }
 }
 

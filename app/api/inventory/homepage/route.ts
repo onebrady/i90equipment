@@ -51,49 +51,51 @@ export async function GET() {
       limit: 1000,
     });
 
-    // Only fetch image URLs for the first 6 items (homepage displays 6)
-    // This prevents hitting rate limits
-    const itemsToDisplay = response.items.slice(0, 6);
-    const remainingItems = response.items.slice(6);
+    // Collect all first image handles
+    const imageHandles: string[] = [];
+    const itemIndexMap = new Map<string, number>();
 
-    // Fetch the first image URL for each of the 6 displayed items
-    // sc577d7e98 is the image field
-    const itemsWithImageUrls = await Promise.all(
-      itemsToDisplay.map(async (item: any) => {
-        // Get the first image handle if it exists
-        const imageField = item.sc577d7e98;
-        if (imageField && Array.isArray(imageField) && imageField.length > 0) {
-          const firstImage = imageField[0];
-          if (firstImage.handle) {
-            try {
-              const imageUrl = await client.getFileUrl(firstImage.handle);
-              // Add the imageUrl to the first image object
-              return {
-                ...item,
-                sc577d7e98: [
-                  {
-                    ...firstImage,
-                    url: imageUrl,
-                  },
-                  ...imageField.slice(1), // Keep remaining images without URLs
-                ],
-              };
-            } catch (error) {
-              console.error(`Failed to fetch image URL for ${item.id}:`, error);
-            }
-          }
+    response.items.forEach((item: any, index: number) => {
+      const imageField = item.sc577d7e98;
+      if (imageField && Array.isArray(imageField) && imageField.length > 0) {
+        const firstImage = imageField[0];
+        if (firstImage.handle) {
+          imageHandles.push(firstImage.handle);
+          itemIndexMap.set(firstImage.handle, index);
         }
-        return item;
-      })
-    );
+      }
+    });
 
-    // Return only the 6 items with image URLs
+    // Fetch all URLs in rate-limited batches (3 at a time, 500ms delay)
+    const urlMap = await client.getFileUrls(imageHandles, 3, 500);
+
+    // Apply URLs to items
+    const itemsWithImageUrls = response.items.map((item: any) => {
+      const imageField = item.sc577d7e98;
+      if (imageField && Array.isArray(imageField) && imageField.length > 0) {
+        const firstImage = imageField[0];
+        if (firstImage.handle && urlMap.has(firstImage.handle)) {
+          return {
+            ...item,
+            sc577d7e98: [
+              {
+                ...firstImage,
+                url: urlMap.get(firstImage.handle),
+              },
+              ...imageField.slice(1),
+            ],
+          };
+        }
+      }
+      return item;
+    });
+
+    // Return all items with image URLs
     return NextResponse.json(
       {
         success: true,
         data: itemsWithImageUrls,
         count: itemsWithImageUrls.length,
-        total: response.items.length, // Total in stock count
         cached_until: new Date(Date.now() + revalidate * 1000).toISOString(),
       },
       {
