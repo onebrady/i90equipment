@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Check } from "lucide-react";
-import { FilloutStandardEmbed } from "@fillout/react";
+import { Button } from "@/components/ui/button";
+import { Check, ExternalLink } from "lucide-react";
 
 const benefits = [
   "Rates as low as 4.99% APR",
@@ -46,19 +46,25 @@ const Financing = () => {
                 ))}
               </div>
 
-              <div className="bg-muted rounded-lg p-3 sm:p-6 mb-6 -mx-4 sm:mx-0">
-                <h3 className="text-xl font-bold text-foreground mb-4 px-4 sm:px-0">
+              <div className="bg-muted rounded-lg p-6 mb-6 text-center">
+                <h3 className="text-xl font-bold text-foreground mb-4">
                   Ready to get started? Complete our simple online application:
                 </h3>
-
-                {/* Finance Application Embed */}
-                <div style={{ width: "100%" }}>
-                  <FilloutStandardEmbed
-                    filloutId="1sSpToAvcRus"
-                    inheritParameters
-                    dynamicResize
-                  />
-                </div>
+                <Button
+                  size="lg"
+                  className="bg-secondary hover:bg-secondary/90 text-white font-semibold"
+                  asChild
+                >
+                  <a
+                    href="https://apfinancing.com/apply/?tfa_768=005Un000001LgwYIAS"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                  >
+                    Apply for Financing
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </Button>
               </div>
 
               <p className="text-center text-muted-foreground">
