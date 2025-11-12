@@ -95,6 +95,20 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z6RDS42G5S"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-Z6RDS42G5S');
+          `}
+        </Script>
+
         <Script src="https://server.fillout.com/embed/v1/" strategy="lazyOnload" />
       </body>
     </html>
