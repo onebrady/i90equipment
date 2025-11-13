@@ -17,7 +17,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   AlertCircle,
-  Barcode,
   ChevronRight,
   Phone,
   Tag,
@@ -81,7 +80,6 @@ export default function InventoryItemPage({ params }: InventoryPageProps) {
 
   const quickStats = [
     { label: 'Status', value: parsed.salesStatus, icon: Tag },
-    { label: 'VIN', value: parsed.vin, icon: Barcode },
   ].filter((stat) => stat.value);
 
   return (
