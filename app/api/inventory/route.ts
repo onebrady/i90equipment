@@ -1,45 +1,71 @@
 /**
- * API Route: Fetch all inventory records from SmartSuite
+ * API Route: Fetch all inventory records from PostgreSQL
  *
  * This route fetches inventory data and leverages Next.js caching
- * to minimize API calls to SmartSuite and respect rate limits.
+ * to minimize DB load.
  */
 
 import { NextResponse } from 'next/server';
-import { getSmartSuiteClient } from '@/lib/smartsuite';
+import { db } from '@/lib/db';
 
 // Configure caching - revalidate every 5 minutes (300 seconds)
-// This ensures we don't hit rate limits while keeping data relatively fresh
 export const revalidate = 300; // 5 minutes
 
 export async function GET() {
   try {
-    const tableId = process.env.SMARTSUITE_INVENTORY_TABLE_ID;
+    const query = `
+      SELECT 
+        slug,
+        year,
+        brand,
+        model,
+        condition,
+        advertised_price,
+        optimized_images,
+        category,
+        description,
+        title,
+        status
+      FROM inventory
+      WHERE status = 'In Stock'
+    `;
 
-    if (!tableId) {
-      return NextResponse.json(
-        { error: 'SMARTSUITE_INVENTORY_TABLE_ID not configured' },
-        { status: 500 }
-      );
-    }
+    const result = await db.query(query);
 
-    const client = getSmartSuiteClient(tableId);
+    const items = result.rows.map((row) => {
+      const displayTitle = row.title || `${row.year} ${row.brand} ${row.model}`.trim();
 
-    // Fetch all inventory records
-    const records = await client.listAllRecords(tableId, {
-      hydrated: true, // Get text labels for ID fields
+      let firstImage = null;
+      if (row.optimized_images && Array.isArray(row.optimized_images) && row.optimized_images.length > 0) {
+        firstImage = row.optimized_images[0].fileUrl;
+      }
+
+      return {
+        // Keep raw data just in case, but flattened
+        ...row,
+        id: row.slug, // Use slug as ID
+        slug: row.slug,
+        title: displayTitle,
+        equipmentType: row.category,
+        year: row.year,
+        manufacturer: row.brand,
+        model: row.model,
+        price: row.advertised_price ? `$${Number(row.advertised_price).toLocaleString()}` : null,
+        condition: row.condition,
+        description: row.description,
+        firstImage: firstImage,
+      };
     });
 
     return NextResponse.json(
       {
         success: true,
-        data: records,
-        count: records.length,
+        data: items,
+        count: items.length,
         cached_until: new Date(Date.now() + revalidate * 1000).toISOString(),
       },
       {
         headers: {
-          // Additional cache control headers for CDN/browser caching
           'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=${revalidate * 2}`,
         },
       }

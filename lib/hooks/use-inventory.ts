@@ -6,18 +6,31 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import type { SmartSuiteRecord } from '@/lib/smartsuite';
+export interface InventoryItem {
+  id: string;
+  slug: string;
+  title: string;
+  equipmentType: string;
+  year: string;
+  manufacturer: string;
+  model: string;
+  price: string | null;
+  condition: string;
+  description: string;
+  firstImage: string | null;
+  [key: string]: any;
+}
 
 interface InventoryResponse {
   success: boolean;
-  data: SmartSuiteRecord[];
+  data: InventoryItem[];
   count: number;
   cached_until: string;
 }
 
 interface InventoryItemResponse {
   success: boolean;
-  data: SmartSuiteRecord;
+  data: InventoryItem;
   cached_until: string;
 }
 

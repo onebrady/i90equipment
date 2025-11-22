@@ -1,24 +1,22 @@
 /**
  * Inventory Listing Page
- * Displays all inventory items from SmartSuite
+ * Displays all inventory items from PostgreSQL
  */
 
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useHomepageInventory } from '@/lib/hooks/use-inventory';
-import { parseInventoryItem, type InventoryItem } from '@/lib/smartsuite/helpers';
+import { useInventory } from '@/lib/hooks/use-inventory';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-import type { Metadata } from 'next';
 
 export default function InventoryPage() {
-  const { data, isLoading, error } = useHomepageInventory();
+  const { data, isLoading, error } = useInventory();
 
   return (
     <>
@@ -70,7 +68,7 @@ export default function InventoryPage() {
             ) : (
               // Success state - show all inventory
               <>
-                {(data.data as InventoryItem[]).length === 0 ? (
+                {data.data.length === 0 ? (
                   <div className="text-center py-12">
                     <Alert className="max-w-2xl mx-auto">
                       <AlertCircle className="h-4 w-4" />
@@ -82,17 +80,15 @@ export default function InventoryPage() {
                   </div>
                 ) : (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {(data.data as InventoryItem[]).map((item) => {
-                      const parsed = parseInventoryItem(item);
-
+                    {data.data.map((item) => {
                       return (
                         <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
                           <CardHeader className="p-0">
                             <div className="relative w-full bg-muted" style={{ aspectRatio: '1374 / 920' }}>
-                              {parsed.firstImage ? (
+                              {item.firstImage ? (
                                 <Image
-                                  src={parsed.firstImage}
-                                  alt={`${parsed.title} - ${parsed.equipmentType} for sale in Montana`}
+                                  src={item.firstImage}
+                                  alt={`${item.title} - ${item.equipmentType} for sale in Montana`}
                                   fill
                                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                   className="object-cover hover:scale-105 transition-transform duration-300"
@@ -104,42 +100,41 @@ export default function InventoryPage() {
                                   No Image
                                 </div>
                               )}
-                              {parsed.condition && (
+                              {item.condition && (
                                 <Badge
-                                  className={`absolute top-4 right-4 z-10 ${
-                                    parsed.condition === 'New'
+                                  className={`absolute top-4 right-4 z-10 ${item.condition === 'New'
                                       ? 'bg-green-600 text-white hover:bg-green-700'
                                       : 'bg-blue-600 text-white hover:bg-blue-700'
-                                  }`}
+                                    }`}
                                 >
-                                  {parsed.condition}
+                                  {item.condition}
                                 </Badge>
                               )}
                             </div>
                           </CardHeader>
                           <CardContent className="p-6">
-                            {parsed.equipmentType && (
+                            {item.equipmentType && (
                               <div className="mb-2">
                                 <Badge variant="outline" className="text-xs">
-                                  {parsed.equipmentType}
+                                  {item.equipmentType}
                                 </Badge>
                               </div>
                             )}
                             <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2">
-                              {parsed.title}
+                              {item.title}
                             </h3>
                             <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                              {parsed.description || `${parsed.year} ${parsed.manufacturer} ${parsed.model}`.trim() || 'Contact us for details'}
+                              {item.description || `${item.year} ${item.manufacturer} ${item.model}`.trim() || 'Contact us for details'}
                             </p>
                           </CardContent>
                           <CardFooter className="p-6 pt-0 flex flex-col items-start gap-4">
-                            {parsed.price && (
+                            {item.price && (
                               <div className="text-3xl font-bold text-primary text-left">
-                                {parsed.price}
+                                {item.price}
                               </div>
                             )}
                             <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground">
-                              <Link href={`/inventory/${parsed.slug}`}>
+                              <Link href={`/inventory/${item.slug}`}>
                                 View Details
                               </Link>
                             </Button>

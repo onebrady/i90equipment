@@ -4,98 +4,69 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getSmartSuiteClient } from '@/lib/smartsuite';
+import { db } from '@/lib/db';
 
 // Cache for 5 minutes
 export const revalidate = 300;
 
 export async function GET() {
   try {
-    const tableId = process.env.SMARTSUITE_INVENTORY_TABLE_ID;
+    // Fetch inventory from Postgres
+    // Filter by status = 'In Stock'
+    // Limit to 6 items
+    const query = `
+      SELECT 
+        slug,
+        year,
+        brand,
+        model,
+        condition,
+        advertised_price,
+        optimized_images,
+        category,
+        description,
+        title,
+        status
+      FROM inventory
+      WHERE status = 'In Stock'
+      LIMIT 6
+    `;
 
-    if (!tableId) {
-      return NextResponse.json(
-        { error: 'SMARTSUITE_INVENTORY_TABLE_ID not configured' },
-        { status: 500 }
-      );
-    }
+    const result = await db.query(query);
 
-    const client = getSmartSuiteClient(tableId);
+    const items = result.rows.map((row) => {
+      // Construct title if missing
+      const displayTitle = row.title || `${row.year} ${row.brand} ${row.model}`.trim();
 
-    // Fetch inventory with filters:
-    // s934963a2a - status field ("In Stock" = "backlog")
-    // scccefe375 - slug field (must not be empty)
-    // sc577d7e98 - images field (must have values)
-    const response = await client.listRecords(tableId, {
-      hydrated: true,
-      filter: {
-        operator: 'and',
-        fields: [
-          {
-            field: 's934963a2a',
-            comparison: 'is',
-            value: 'backlog',
-          },
-          {
-            field: 'scccefe375',
-            comparison: 'is_not_empty',
-            value: null,
-          },
-          {
-            field: 'sc577d7e98',
-            comparison: 'is_not_empty',
-            value: null,
-          },
-        ],
-      },
-      limit: 1000,
-    });
-
-    // Collect all first image handles
-    const imageHandles: string[] = [];
-    const itemIndexMap = new Map<string, number>();
-
-    response.items.forEach((item: any, index: number) => {
-      const imageField = item.sc577d7e98;
-      if (imageField && Array.isArray(imageField) && imageField.length > 0) {
-        const firstImage = imageField[0];
-        if (firstImage.handle) {
-          imageHandles.push(firstImage.handle);
-          itemIndexMap.set(firstImage.handle, index);
-        }
+      // Get first image URL
+      let firstImage = null;
+      if (row.optimized_images && Array.isArray(row.optimized_images) && row.optimized_images.length > 0) {
+        firstImage = row.optimized_images[0].fileUrl;
       }
+
+      // Map to structure expected by frontend
+      return {
+        // Keep raw data just in case, but flattened
+        ...row,
+        id: row.slug, // Use slug as ID
+        slug: row.slug,
+        title: displayTitle,
+        equipmentType: row.category,
+        year: row.year,
+        manufacturer: row.brand,
+        model: row.model,
+        price: row.advertised_price ? `$${Number(row.advertised_price).toLocaleString()}` : null,
+        condition: row.condition,
+        description: row.description,
+        firstImage: firstImage,
+      };
     });
 
-    // Fetch all URLs in rate-limited batches (3 at a time, 500ms delay)
-    const urlMap = await client.getFileUrls(imageHandles, 3, 500);
-
-    // Apply URLs to items
-    const itemsWithImageUrls = response.items.map((item: any) => {
-      const imageField = item.sc577d7e98;
-      if (imageField && Array.isArray(imageField) && imageField.length > 0) {
-        const firstImage = imageField[0];
-        if (firstImage.handle && urlMap.has(firstImage.handle)) {
-          return {
-            ...item,
-            sc577d7e98: [
-              {
-                ...firstImage,
-                url: urlMap.get(firstImage.handle),
-              },
-              ...imageField.slice(1),
-            ],
-          };
-        }
-      }
-      return item;
-    });
-
-    // Return all items with image URLs
     return NextResponse.json(
       {
         success: true,
-        data: itemsWithImageUrls,
-        count: itemsWithImageUrls.length,
+        data: items,
+        count: items.length,
         cached_until: new Date(Date.now() + revalidate * 1000).toISOString(),
       },
       {
@@ -106,6 +77,13 @@ export async function GET() {
     );
   } catch (error) {
     console.error('Error fetching homepage inventory:', error);
+    // Write error to file for debugging
+    try {
+      const fs = require('fs');
+      fs.writeFileSync('debug_error.txt', `Error: ${error instanceof Error ? error.message : String(error)}\nStack: ${error instanceof Error ? error.stack : ''}`);
+    } catch (e) {
+      console.error('Failed to write debug error:', e);
+    }
 
     return NextResponse.json(
       {
