@@ -1,7 +1,9 @@
 import { Facebook } from "lucide-react";
+import { getAllCategories } from "@/lib/categories";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const categories = getAllCategories();
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -32,36 +34,16 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4" style={{ color: '#fff', fontWeight: 700 }}>Trailer Types</h3>
             <ul className="space-y-2">
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Lowboy Trailers
-                </a>
-              </li>
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Side Dump Trailers
-                </a>
-              </li>
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Belly Dump Trailers
-                </a>
-              </li>
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Flatbed Trailers
-                </a>
-              </li>
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Step Deck Trailers
-                </a>
-              </li>
-              <li>
-                <a href="/inventory" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  RGN Trailers
-                </a>
-              </li>
+              {categories.map((category) => (
+                <li key={category.slug}>
+                  <a
+                    href={`/categories/${category.slug}`}
+                    className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  >
+                    {category.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -127,7 +109,7 @@ const Footer = () => {
 
             {/* Social Media */}
             <div className="mt-4">
-              <a 
+              <a
                 href="https://www.facebook.com/p/I90-Equipment-100064037703676/"
                 target="_blank"
                 rel="noopener noreferrer"

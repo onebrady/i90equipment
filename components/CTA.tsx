@@ -3,13 +3,13 @@ import { Phone, FileText, DollarSign } from "lucide-react";
 
 const CTA = () => {
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-primary to-primary-dark text-primary-foreground">
+    <section id="contact" className="py-24 lg:py-32 bg-gradient-to-br from-primary to-primary-dark text-primary-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: '#fff' }}>
             Ready to Upgrade Your Fleet?
           </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8">
+          <p className="text-xl text-primary-foreground/90 mb-8 font-sans">
             Contact I90 Equipment today to discuss your heavy-duty trailer needs
           </p>
 

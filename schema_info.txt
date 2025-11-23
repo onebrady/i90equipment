@@ -1,0 +1,87 @@
+Connected.
+Tables: inventory
+
+--- Table: inventory ---
+Columns: year (numeric), followed_by (jsonb), number_of_axles (numeric), date_received (timestamp with time zone), customer (jsonb), images_optimized (boolean), open_comments (numeric), first_created (timestamp with time zone), last_modified_model (timestamp with time zone), description_optimized (boolean), unit_cost (numeric), titles (jsonb), documents (jsonb), website_sync (boolean), salesman (jsonb), advertised_price (numeric), files (jsonb), raw_images (jsonb), optimized_images (jsonb), qty (numeric), last_updated (timestamp with time zone), minimum_sale_price (numeric), consignment_vendor (jsonb), freight (numeric), additional_costs (numeric), gvwr (numeric), brand (text), description (text), auto_number (text), condition (text), model (text), status (text), category (text), vin (text), listing_name (text), oal (text), oaw (text), web_description (text), slug (text), title (text), locations (text), trailer_id (text)
+Sample Row Keys: trailer_id, description, first_created, last_updated, followed_by, open_comments, auto_number, salesman, condition, year, model, status, category, unit_cost, vin, advertised_price, files, raw_images, optimized_images, qty, listing_name, minimum_sale_price, consignment_vendor, freight, additional_costs, gvwr, oal, oaw, number_of_axles, date_received, customer, images_optimized, web_description, slug, last_modified_model, description_optimized, title, titles, documents, website_sync, locations, brand
+Sample Row Data (Subset): {
+  "trailer_id": "New 2026 SmithCo SX5-4938 Side Dumps #046",
+  "description": "SMITHCO SX5-4938 WHITE/BLACK*MODEL: SX5*102&quot; WIDE*FRAME LENGTH: 49&#x27;*TUB LENGTH: 38&#x27;*TUB STYLE: SX-ROUND BOTTOM *TUB SIDES: 1/4&quot; AR400*TUB FLOOR: 1/4&quot; AR400*TUB DIVIDERS: 0*TUB VOLUME: 38&#x27; SX - WATER LEVEL - 25.5 CUBIC YARDS 38&#x27; SX - HEAPED - 33.8 CUBIC YARDS *DOLLY LEGS: BINKLEY*HYDRAULICS: 5&quot; CYLINDERS *VALVE ON TRAILER: HYDRAULIC CONTROL VALVE ON TRAILER (AIR/HYDRAULIC)*SUSPENSION: RIDEWELL RW260*AXLE SPACING: 97&quot;-54&quot;-54&quot;-60&quot;*LIFT AXLE: 1ST &amp; 5TH (16.6K RW L/S)*ABS-AXLES: 25K       1*NON-ABS AXLES: 25K        4*AXLE TRACK: 77.5&quot;-STD*HUBS: DURALITE-STD*BRAKES: 16-1/2&quot;x7&quot;*DRUMS: CAST STEEL *WHEEL STYLE: HUB-PILOTED U/M*WHEEL TYPE: AL SS 12.25x22.5                           6 SUPER SINGLE ALUM ON TRIAXLE, (4) 9&quot; ALUM ON STEERS*TIRES: 385/65R22.5 &quot;J&quot; PLY SUPER SINGLE        6 385/65 ON TRIAXLE, (4) 295/75 ON STEERS*FENDERS: ALL PLASTIC*TUB PAINT #: DV-19088 (WHITE)*FRAME PAINT #: DV-19040-DTM (BLACK)*TARP BRAND: AERO*TARP TYPE: MESH-NON SEALED*LOCK OUT SWITCH: TARP LOCKOUT *W STYLE PUSHBLOCK - STD*LARGE LIQUID FILLED AIR GAUGE ON DRIVER&#x27;S SIDE - STD*GREASE BANK FOR HYDRAULIC CYLINDERS FRONT AND REAR - STD*3 TAILLIGHTS - RED*5 ID LIGHTS AT REAR",
+  "first_created": null,
+  "last_updated": null,
+  "followed_by": null,
+  "open_comments": null,
+  "auto_number": null,
+  "salesman": null,
+  "condition": "New",
+  "year": "2026",
+  "model": "SX5-4938",
+  "status": "In Stock",
+  "category": "Side Dumps",
+  "unit_cost": null,
+  "vin": null,
+  "advertised_price": "122900",
+  "files": null,
+  "raw_images": null,
+  "optimized_images": [
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/0xjtWt9ORxGofr02OzFR",
+      "fileName": "opt-smithco-sx5_04 (1).jpg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/YFytAYIJTCWY950MLx6a",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (7).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/AfyZdcKhTUKglpJaIDzy",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (6).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/dLTInbodTbKeLD6EJWMU",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (5).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/7vleZVQuqo7hNOXI7ULA",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (4).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/sqVR9IUQ9ihNiLi8s4Vt",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (3).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/JgTpEoXwR5G9P9AkSpb1",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (2).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/SeAe3ufeTJWaBTbzp0Hq",
+      "fileName": "opt-Image 2025-07-21 08-25-13 (1).jpeg"
+    },
+    {
+      "fileUrl": "https://cdn.files.smartsuite.com/AEHrSDUikTDqTbYuRTesYz/security=policy:eyJleHBpcnkiOjE3NjM4NDQwMjI5ODQsImNhbGwiOlsicmVhZCIsImNvbnZlcnQiLCJwaWNrIiwic3RvcmUiXSwibWF4U2l6ZSI6NTAwMDAwMDAwMH0=,signature:f8b0d00790d45cd996be370bb18b7881f6b7a2a0a4cad21abe8ec5dffca40499/dcdRlYkQ3yxpqOD1pk1B",
+      "fileName": "opt-Image 2025-07-21 08-25-13.jpeg"
+    }
+  ],
+  "qty": "2",
+  "listing_name": null,
+  "minimum_sale_price": null,
+  "consignment_vendor": null,
+  "freight": null,
+  "additional_costs": null,
+  "gvwr": "102570",
+  "oal": "49",
+  "oaw": "102",
+  "number_of_axles": "5",
+  "date_received": null,
+  "customer": null,
+  "images_optimized": null,
+  "web_description": "<h2>  – 102\" WIDE, 49' x 38'</h2><h3>Key Specs</h3><ul><li><strong>Manufacturer:</strong> SMITHCO</li><li><strong>Model:</strong> SX5-4938</li><li><strong>Color:</strong> WHITE/BLACK</li><li><strong>Width:</strong> 102\" WIDE</li><li><strong>Frame Length:</strong> 49'</li><li><strong>Tub Length:</strong> 38'</li><li><strong>Tub Volume:</strong> 38' SX - WATER LEVEL - 25.5 CUBIC YARDS; 38' SX - HEAPED - 33.8 CUBIC YARDS</li></ul><h3>Tub Construction</h3><ul><li><strong>Tub Style:</strong> SX-ROUND BOTTOM</li><li><strong>Tub Sides:</strong> 1/4\" AR400</li><li><strong>Tub Floor:</strong> 1/4\" AR400</li><li><strong>Tub Dividers:</strong> 0</li></ul><h3>Hydraulics & Control</h3><ul><li><strong>Hydraulics:</strong> 5\" CYLINDERS</li><li><strong>Valve on Trailer:</strong> HYDRAULIC CONTROL VALVE ON TRAILER (AIR/HYDRAULIC)</li><li><strong>Grease Bank:</strong> GREASE BANK FOR HYDRAULIC CYLINDERS FRONT AND REAR - STD</li></ul><h3>Axles & Suspension</h3><ul><li><strong>Suspension:</strong> RIDEWELL RW260</li><li><strong>Axle Spacing:</strong> 97\"-54\"-54\"-60\"</li><li><strong>Lift Axle:</strong> 1ST & 5TH (16.6K RW L/S)</li><li><strong>ABS Axles:</strong> 25K 1</li><li><strong>Non-ABS Axles:</strong> 25K 4</li><li><strong>Axle Track:</strong> 77.5\"-STD</li><li><strong>Hubs:</strong> DURALITE-STD</li><li><strong>Brakes:</strong> 16-1/2\"x7\"</li><li><strong>Drums:</strong> CAST STEEL</li></ul><h3>Wheels & Tires</h3><ul><li><strong>Wheel Style:</strong> HUB-PILOTED U/M</li><li><strong>Wheel Type:</strong> AL SS 12.25x22.5 6 SUPER SINGLE ALUM ON TRIAXLE, (4) 9\" ALUM ON STEERS</li><li><strong>Tires:</strong> 385/65R22.5 \"J\" PLY SUPER SINGLE 6 385/65 ON TRIAXLE, (4) 295/75 ON STEERS</li></ul><h3>Paint & Finish</h3><ul><li><strong>Fenders:</strong> ALL PLASTIC</li><li><strong>Tub Paint #:</strong> DV-19088 (WHITE)</li><li><strong>Frame Paint #:</strong> DV-19040-DTM (BLACK)</li><li><strong>Tarp Brand:</strong> AERO</li><li><strong>Tarp Type:</strong> MESH-NON SEALED</li></ul><h3>Additional Features</h3><ul><li><strong>Dolly Legs:</strong> BINKLEY</li><li><strong>Lock Out Switch:</strong> TARP LOCKOUT</li><li><strong>W Style Pushblock:</strong> STD</li><li><strong>Large liquid filled air gauge on driver's side:</strong> STD</li></ul><h3>Lighting & Safety</h3><ul><li><strong>Tail Lights:</strong> 3 TAILLIGHTS - RED</li><li><strong>ID Lights:</strong> 5 ID LIGHTS AT REAR</li></ul>",
+  "slug": "new-2026-smithco-sx5-4938-side-dump-046",
+  "last_modified_model": null,
+  "description_optimized": null,
+  "title": null,
+  "titles": null,
+  "documents": null,
+  "website_sync": null,
+  "locations": "Western Truck - Montana",
+  "brand": "SmithCo"
+}

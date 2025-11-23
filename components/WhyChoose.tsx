@@ -36,13 +36,13 @@ const benefits = [
 
 const WhyChoose = () => {
   return (
-    <section className="py-20 bg-light-gray">
+    <section className="py-24 lg:py-32 bg-light-gray">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Why Choose I90 Equipment
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
             Experience, quality, and Montana values you can trust
           </p>
         </div>
@@ -56,10 +56,10 @@ const WhyChoose = () => {
                   <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-secondary" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">
+                  <h3 className="text-xl font-bold text-foreground mb-3 font-sans">
                     {benefit.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed font-sans">
                     {benefit.description}
                   </p>
                 </CardContent>

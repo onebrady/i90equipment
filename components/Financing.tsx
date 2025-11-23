@@ -15,21 +15,21 @@ const benefits = [
 
 const Financing = () => {
   return (
-    <section id="financing" className="py-20 bg-background">
+    <section id="financing" className="py-24 lg:py-32 bg-background">
       <div className="container mx-auto px-2 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 px-2 sm:px-0">
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Flexible Financing Options
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground font-sans">
               Get the equipment you need with competitive rates starting at 4.99%
             </p>
           </div>
 
           <Card className="mb-8">
             <CardContent className="p-4 sm:p-8">
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-6 leading-relaxed font-sans">
                 At I90 Equipment, we understand that investing in quality construction trailers is a significant decision for your business. That's why we've partnered with leading equipment financing companies to offer you competitive rates and flexible terms.
               </p>
 
@@ -41,13 +41,13 @@ const Financing = () => {
                         <Check className="w-3 h-3 text-secondary" />
                       </div>
                     </div>
-                    <span className="text-foreground">{benefit}</span>
+                    <span className="text-foreground font-sans">{benefit}</span>
                   </div>
                 ))}
               </div>
 
               <div className="bg-muted rounded-lg p-6 mb-6 text-center">
-                <h3 className="text-xl font-bold text-foreground mb-4">
+                <h3 className="text-xl font-bold text-foreground mb-4 font-sans">
                   Ready to get started? Complete our simple online application:
                 </h3>
                 <Button
@@ -67,7 +67,7 @@ const Financing = () => {
                 </Button>
               </div>
 
-              <p className="text-center text-muted-foreground">
+              <p className="text-center text-muted-foreground font-sans">
                 Questions about financing? Call us at{" "}
                 <a href="tel:+14069392153" className="text-secondary hover:underline font-semibold">
                   (406) 939-2153

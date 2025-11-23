@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-light-gray">
+    <section id="about" className="pt-44 pb-32 bg-light-gray">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}
@@ -9,7 +9,7 @@ const About = () => {
               <img
                 src="/assets/wesley-stewart.webp"
                 alt="Wesley Stewart, Owner of I90 Equipment, standing with heavy-duty construction trailers in Montana"
-                className="rounded-lg shadow-xl w-full h-auto object-cover"
+                className="rounded-lg shadow-xl w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover object-center"
               />
               <div className="absolute -bottom-6 -right-6 bg-secondary text-secondary-foreground px-6 py-4 rounded-lg shadow-lg hidden sm:block">
                 <div className="text-3xl font-bold">15+</div>

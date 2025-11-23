@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -19,6 +20,18 @@ import { cn } from "@/lib/utils";
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [showInventorySubmenu, setShowInventorySubmenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const categories = getAllCategories();
 
@@ -27,8 +40,25 @@ const Header = () => {
     { href: "/contact", label: "Contact" },
   ];
 
+  // Header state logic
+  const isTransparent = isHome && !scrolled;
+
+  // Text color classes
+  const textColorClass = isTransparent ? "text-white hover:text-secondary" : "text-foreground hover:text-secondary";
+  const triggerColorClass = isTransparent
+    ? "text-white bg-transparent hover:bg-transparent hover:text-secondary data-[state=open]:bg-transparent data-[state=open]:text-secondary"
+    : "text-foreground bg-transparent hover:bg-transparent hover:text-secondary data-[state=open]:bg-transparent";
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        "w-full z-50 transition-all duration-300",
+        isHome ? "fixed top-0" : "sticky top-0",
+        isTransparent
+          ? "bg-transparent border-b-0"
+          : "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm"
+      )}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
@@ -45,14 +75,14 @@ const Header = () => {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/" className="text-sm font-medium text-foreground hover:text-secondary transition-colors px-4 py-2">
+                  <Link href="/" className={cn("text-sm font-medium transition-colors px-4 py-2", textColorClass)}>
                     Home
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-sm font-medium bg-transparent hover:bg-transparent hover:text-secondary data-[state=open]:bg-transparent">
+                <NavigationMenuTrigger className={cn("text-sm font-medium", triggerColorClass)}>
                   Inventory
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -86,7 +116,7 @@ const Header = () => {
               {navItems.map((item) => (
                 <NavigationMenuItem key={item.href}>
                   <NavigationMenuLink asChild>
-                    <Link href={item.href} className="text-sm font-medium text-foreground hover:text-secondary transition-colors px-4 py-2">
+                    <Link href={item.href} className={cn("text-sm font-medium transition-colors px-4 py-2", textColorClass)}>
                       {item.label}
                     </Link>
                   </NavigationMenuLink>
@@ -106,7 +136,7 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className={isTransparent ? "text-white hover:bg-white/20" : ""}>
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>

@@ -1,0 +1,2 @@
+DB URL exists: true
+URL: postgresql://postgres:postgres@localhost:5432/content_management_local

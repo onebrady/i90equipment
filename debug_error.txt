@@ -1,0 +1,24 @@
+Error: 
+Stack: AggregateError: 
+    at D:\Projects\i90equipment\i90equipment\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async GET (webpack-internal:///(rsc)/./app/api/inventory/homepage/route.ts:40:24)
+    at async AppRouteRouteModule.do (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:5:38696)
+    at async AppRouteRouteModule.handle (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:5:45978)
+    at async responseGenerator (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Finventory%2Fhomepage%2Froute&page=%2Fapi%2Finventory%2Fhomepage%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Finventory%2Fhomepage%2Froute.ts&appDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:206:38)
+    at async AppRouteRouteModule.handleResponse (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:1:187565)
+    at async handleResponse (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Finventory%2Fhomepage%2Froute&page=%2Fapi%2Finventory%2Fhomepage%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Finventory%2Fhomepage%2Froute.ts&appDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:268:32)
+    at async handler (webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Finventory%2Fhomepage%2Froute&page=%2Fapi%2Finventory%2Fhomepage%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Finventory%2Fhomepage%2Froute.ts&appDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=D%3A%5CProjects%5Ci90equipment%5Ci90equipment&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!:320:13)
+    at async DevServer.renderToResponseWithComponentsImpl (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\base-server.js:1422:9)
+    at async DevServer.renderPageComponent (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\base-server.js:1474:24)
+    at async DevServer.renderToResponseImpl (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\base-server.js:1514:32)
+    at async DevServer.pipeImpl (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\base-server.js:1025:25)
+    at async NextNodeServer.handleCatchallRenderRequest (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\next-server.js:393:17)
+    at async DevServer.handleRequestImpl (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\base-server.js:916:17)
+    at async D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\dev\next-dev-server.js:399:20
+    at async Span.traceAsyncFn (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\dev\next-dev-server.js:395:24)
+    at async invokeRender (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\lib\router-server.js:240:21)
+    at async handleRequest (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\lib\router-server.js:437:24)
+    at async requestHandlerImpl (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\lib\router-server.js:485:13)
+    at async Server.requestListener (D:\Projects\i90equipment\i90equipment\node_modules\next\dist\server\lib\start-server.js:226:13)
