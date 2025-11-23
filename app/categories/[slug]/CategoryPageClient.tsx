@@ -18,6 +18,18 @@ interface CategoryPageClientProps {
 }
 
 export default function CategoryPageClient({ slug }: CategoryPageClientProps) {
+  const formatDescription = (desc: string) => {
+    if (!desc) return "";
+    // Decode basic entities and clean up formatting
+    return desc
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/\*/g, " • ");
+  };
+
   const category = getCategoryBySlug(slug);
 
   if (!category) {
@@ -39,12 +51,12 @@ export default function CategoryPageClient({ slug }: CategoryPageClientProps) {
 
   return (
     <>
-      {/* Hero Section */}
-      <div className="bg-gradient-to-b from-muted/40 via-background to-background">
-        <div className="container mx-auto py-16 px-4">
-          <div className="max-w-6xl mx-auto text-center space-y-4">
-            <h1 className="text-5xl font-bold text-foreground">{category.title}</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+      {/* Header Section */}
+      <div className="bg-background">
+        <div className="container mx-auto pt-12 pb-6 px-4">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-3xl font-bold text-foreground mb-2">{category.title}</h1>
+            <p className="text-base text-muted-foreground max-w-[525px]">
               {category.subtitle}
             </p>
           </div>
@@ -53,11 +65,11 @@ export default function CategoryPageClient({ slug }: CategoryPageClientProps) {
 
       {/* Inventory Grid Section */}
       <div className="bg-background">
-        <div className="container mx-auto pb-16 px-4">
+        <div className="container mx-auto pb-8 px-4">
           <div className="max-w-7xl mx-auto">
             {isLoading ? (
               // Loading state
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <Card key={i} className="overflow-hidden">
                     <Skeleton className="h-64 w-full" />
@@ -111,7 +123,7 @@ export default function CategoryPageClient({ slug }: CategoryPageClientProps) {
                         {categoryItems.length === 1 ? 'item' : 'items'}
                       </p>
                     </div>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {categoryItems.map((item) => (
                         <Card
                           key={item.id}
@@ -153,27 +165,25 @@ export default function CategoryPageClient({ slug }: CategoryPageClientProps) {
                           <CardContent className="p-6">
                             {item.equipmentType && (
                               <div className="mb-2">
-                                <Badge variant="outline" className="text-xs">
+                                <Badge variant="outline" className="text-xs font-sans">
                                   {item.equipmentType}
                                 </Badge>
                               </div>
                             )}
-                            <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2">
+                            <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2 font-sans">
                               {item.title}
                             </h3>
-                            <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                              {item.description ||
-                                `${item.year} ${item.manufacturer} ${item.model}`.trim() ||
-                                'Contact us for details'}
+                            <p className="text-muted-foreground text-sm mb-4 line-clamp-3 font-sans">
+                              {formatDescription(item.description) || 'Contact us for details'}
                             </p>
                           </CardContent>
                           <CardFooter className="p-6 pt-0 flex flex-col items-start gap-4">
                             {item.price && (
-                              <div className="text-3xl font-bold text-primary text-left">
+                              <div className="text-2xl font-bold text-primary text-left font-sans">
                                 {item.price}
                               </div>
                             )}
-                            <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground">
+                            <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-sans">
                               <Link href={`/inventory/${item.slug}`}>View Details</Link>
                             </Button>
                           </CardFooter>

@@ -18,6 +18,17 @@ import { AlertCircle } from 'lucide-react';
 import { FilterSidebar, FilterState } from '@/components/FilterSidebar';
 
 export default function InventoryPage() {
+  const formatDescription = (desc: string) => {
+    if (!desc) return "";
+    // Decode basic entities and clean up formatting
+    return desc
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/\*/g, " • ");
+  };
   const { data, isLoading, error } = useInventory();
   const [filters, setFilters] = useState<FilterState>({
     categories: [],
@@ -87,30 +98,22 @@ export default function InventoryPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <div className="bg-gradient-to-b from-muted/40 via-background to-background">
-        <div className="container mx-auto py-16 px-4">
-          <div className="max-w-6xl mx-auto text-center space-y-4">
-            <h1 className="text-5xl font-bold text-foreground">Available Inventory</h1>
-            <p className="text-xl text-muted-foreground mx-auto" style={{ maxWidth: '475px' }}>
-              Quality construction trailers and heavy haul trucks from the industry's most trusted manufacturers
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Inventory Grid Section */}
       <div className="bg-background">
-        <div className="container mx-auto pb-16 px-4">
+        <div className="container mx-auto pt-12 pb-8 px-4">
           <div className="max-w-7xl mx-auto">
             {isLoading ? (
               // Loading state
-              <div className="flex gap-8">
+              <div className="flex gap-6">
                 <div className="w-64 flex-shrink-0">
                   <Skeleton className="h-96 w-full" />
                 </div>
                 <div className="flex-1">
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="mb-6">
+                    <h1 className="text-3xl font-bold text-foreground mb-3">Available Inventory</h1>
+                    <Skeleton className="h-5 w-48" />
+                  </div>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                       <Card key={i} className="overflow-hidden">
                         <Skeleton className="h-64 w-full" />
@@ -153,7 +156,7 @@ export default function InventoryPage() {
                     </Alert>
                   </div>
                 ) : (
-                  <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="flex flex-col lg:flex-row gap-6">
                     {/* Filter Sidebar */}
                     <aside className="w-full lg:w-64 flex-shrink-0">
                       <div className="sticky top-4">
@@ -181,10 +184,13 @@ export default function InventoryPage() {
                         </div>
                       ) : (
                         <>
-                          <div className="mb-4 text-sm text-muted-foreground">
-                            Showing {filteredItems.length} of {data.data.length} items
+                          <div className="mb-6">
+                            <h1 className="text-3xl font-bold text-foreground mb-3">Available Inventory</h1>
+                            <div className="text-sm text-muted-foreground">
+                              Showing <span className="font-semibold text-foreground">{filteredItems.length}</span> of {data.data.length} items
+                            </div>
                           </div>
-                          <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                          <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                             {filteredItems.map((item) => {
                               return (
                                 <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -220,25 +226,25 @@ export default function InventoryPage() {
                                   <CardContent className="p-6">
                                     {item.equipmentType && (
                                       <div className="mb-2">
-                                        <Badge variant="outline" className="text-xs">
+                                        <Badge variant="outline" className="text-xs font-sans">
                                           {item.equipmentType}
                                         </Badge>
                                       </div>
                                     )}
-                                    <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2">
+                                    <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-2 font-sans">
                                       {item.title}
                                     </h3>
-                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                                      {item.description || `${item.year} ${item.manufacturer} ${item.model}`.trim() || 'Contact us for details'}
+                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3 font-sans">
+                                      {formatDescription(item.description) || 'Contact us for details'}
                                     </p>
                                   </CardContent>
                                   <CardFooter className="p-6 pt-0 flex flex-col items-start gap-4">
                                     {item.price && (
-                                      <div className="text-3xl font-bold text-primary text-left">
+                                      <div className="text-2xl font-bold text-primary text-left font-sans">
                                         {item.price}
                                       </div>
                                     )}
-                                    <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground">
+                                    <Button asChild className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-sans">
                                       <Link href={`/inventory/${item.slug}`}>
                                         View Details
                                       </Link>
