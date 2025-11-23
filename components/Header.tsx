@@ -23,7 +23,6 @@ const Header = () => {
   const categories = getAllCategories();
 
   const navItems = [
-    { href: "/", label: "Home" },
     { href: "/#financing", label: "Financing" },
     { href: "/contact", label: "Contact" },
   ];
