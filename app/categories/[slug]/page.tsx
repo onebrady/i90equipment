@@ -8,9 +8,9 @@ import { getCategoryBySlug, getAllCategories } from '@/lib/categories';
 import CategoryPageClient from './CategoryPageClient';
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Generate static params for all categories
@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 
 // Generate metadata for each category page
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const category = getCategoryBySlug(params.slug);
+  const { slug } = await params;
+  const category = getCategoryBySlug(slug);
 
   if (!category) {
     return {
@@ -42,6 +43,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  return <CategoryPageClient slug={params.slug} />;
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
+  return <CategoryPageClient slug={slug} />;
 }
