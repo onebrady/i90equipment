@@ -39,29 +39,30 @@ const Hero = () => {
       </div>
 
       {/* Key Features Floating Bar */}
-      <div className="absolute -bottom-12 left-0 right-0 z-20 flex justify-center px-4">
-        <div className="bg-[#0f172a] text-white rounded-lg shadow-xl py-6 px-4 md:px-12 max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 animate-fade-in-up">
+      <div className="absolute -bottom-[146px] md:-bottom-12 left-0 right-0 z-20 flex justify-center px-4">
+        <div className="bg-[#0f172a] text-white rounded-lg shadow-xl py-4 md:py-6 px-4 md:px-12 max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 animate-fade-in-up">
 
           {/* Item 1 */}
           <div className="flex flex-col items-center text-center w-full md:w-1/3 md:border-r md:border-white/20">
-            <div className="text-2xl md:text-3xl font-bold mb-1">Premium</div>
+            <div className="text-lg md:text-3xl font-bold mb-1">Premium</div>
             <div className="text-sm md:text-base text-gray-300 uppercase tracking-wide">Brands</div>
           </div>
 
           {/* Item 2 */}
           <div className="flex flex-col items-center text-center w-full md:w-1/3 md:border-r md:border-white/20">
-            <div className="text-2xl md:text-3xl font-bold mb-1">4.99%</div>
+            <div className="text-lg md:text-3xl font-bold mb-1">4.99%</div>
             <div className="text-sm md:text-base text-gray-300 uppercase tracking-wide">Financing Available</div>
           </div>
 
           {/* Item 3 */}
           <div className="flex flex-col items-center text-center w-full md:w-1/3">
-            <div className="text-2xl md:text-3xl font-bold mb-1">Montana</div>
+            <div className="text-lg md:text-3xl font-bold mb-1">Montana</div>
             <div className="text-sm md:text-base text-gray-300 uppercase tracking-wide">Based & Focused</div>
           </div>
 
         </div>
       </div>
+
     </section>
   );
 };
