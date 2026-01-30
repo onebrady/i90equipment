@@ -5,7 +5,7 @@
 
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, lazy, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
@@ -21,9 +21,42 @@ import {
   Tag,
   ZoomIn,
 } from 'lucide-react';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+
+// Lazy load Lightbox and its plugins - only loads when user opens lightbox (~45KB saved from initial bundle)
+const LightboxComponent = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
+
+// Wrapper component for lazy-loaded Lightbox with Zoom plugin
+function LightboxWithZoom({
+  open,
+  close,
+  index,
+  slides
+}: {
+  open: boolean;
+  close: () => void;
+  index: number;
+  slides: { src: string }[]
+}) {
+  const [ZoomPlugin, setZoomPlugin] = useState<any>(null);
+
+  // Load the Zoom plugin when the component mounts
+  useState(() => {
+    import('yet-another-react-lightbox/plugins/zoom').then(mod => {
+      setZoomPlugin(() => mod.default);
+    });
+  });
+
+  return (
+    <LightboxComponent
+      open={open}
+      close={close}
+      index={index}
+      slides={slides}
+      plugins={ZoomPlugin ? [ZoomPlugin] : []}
+    />
+  );
+}
 
 interface InventoryPageProps {
   params: Promise<{
@@ -259,15 +292,16 @@ export default function InventoryItemPage({ params }: InventoryPageProps) {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {item.images && item.images.length > 0 && (
-        <Lightbox
-          open={lightboxOpen}
-          close={() => setLightboxOpen(false)}
-          index={selectedImageIndex}
-          slides={item.images.map((imageUrl: string) => ({ src: imageUrl }))}
-          plugins={[Zoom]}
-        />
+      {/* Lightbox Modal - dynamically loaded only when opened */}
+      {lightboxOpen && item.images && item.images.length > 0 && (
+        <Suspense fallback={null}>
+          <LightboxWithZoom
+            open={lightboxOpen}
+            close={() => setLightboxOpen(false)}
+            index={selectedImageIndex}
+            slides={item.images.map((imageUrl: string) => ({ src: imageUrl }))}
+          />
+        </Suspense>
       )}
 
       {/* Form Embed Script */}

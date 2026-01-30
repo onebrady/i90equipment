@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -25,11 +25,14 @@ const Header = () => {
   const isHome = pathname === "/";
 
   useEffect(() => {
+    // Use functional setState to avoid unnecessary re-renders when value hasn't changed
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const shouldBeScrolled = window.scrollY > 20;
+      setScrolled(prev => prev !== shouldBeScrolled ? shouldBeScrolled : prev);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Use passive listener for better scroll performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -154,7 +157,7 @@ const Header = () => {
                 {/* Inventory with Submenu */}
                 <div className="flex flex-col space-y-2">
                   <button
-                    onClick={() => setShowInventorySubmenu(!showInventorySubmenu)}
+                    onClick={() => setShowInventorySubmenu(prev => !prev)}
                     className="text-lg font-medium text-foreground hover:text-secondary transition-colors py-2 flex items-center justify-between"
                   >
                     Inventory
