@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -5,10 +6,13 @@ const Hero = () => {
     <section id="home" className="relative min-h-[600px] md:min-h-[700px] lg:h-[90vh] flex items-center justify-center">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
+        <Image
           src="/assets/hero-bg.jpg"
           alt="Heavy-duty construction trailers in Montana landscape"
-          className="w-full h-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
       </div>

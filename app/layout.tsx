@@ -20,19 +20,24 @@ const rosarivo = Rosarivo({
 });
 
 export const metadata: Metadata = {
-  title: "I90 Equipment - Montana's Premier Heavy-Duty Construction Trailer Dealer | Billings & Belgrade MT",
-  description: "Montana's trusted source for heavy-duty construction trailers. XL Specialized, Smithco, Ranco & more. Lowboys, side dumps, belly dumps, flatbeds. Financing from 4.99%. Serving Billings, Belgrade & all of Montana.",
+  title: "I90 Equipment | Montana Heavy-Duty Trailer Dealer",
+  description: "Montana's trusted source for heavy-duty construction trailers. Lowboys, side dumps, flatbeds & more. Financing from 4.99%.",
   keywords: "Montana construction trailers, heavy-duty trailers Montana, lowboy trailers Billings MT, side dump trailers Montana, construction equipment trailers Belgrade MT",
   authors: [{ name: "I90 Equipment" }],
+  metadataBase: new URL("https://i90equipment.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "I90 Equipment - Montana's Premier Heavy-Duty Construction Trailer Dealer",
-    description: "Montana's trusted source for heavy-duty construction trailers. XL Specialized, Smithco, Ranco & more. Financing from 4.99%.",
+    title: "I90 Equipment | Montana Heavy-Duty Trailer Dealer",
+    description: "Montana's trusted source for heavy-duty construction trailers. Lowboys, side dumps, flatbeds & more. Financing from 4.99%.",
     type: "website",
     url: "https://i90equipment.com",
+    siteName: "I90 Equipment",
   },
   twitter: {
     card: "summary_large_image",
-    title: "I90 Equipment - Montana Construction Trailers",
+    title: "I90 Equipment | Montana Heavy-Duty Trailer Dealer",
   },
 };
 

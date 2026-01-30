@@ -1,62 +1,12 @@
 /**
  * Dynamic Inventory Item Page
- * Displays a single inventory item fetched from PostgreSQL
+ * Server Component with SEO metadata and Product schema
  */
 
-'use client';
-
-import { use, useState, lazy, Suspense } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import Script from 'next/script';
-import { useInventoryItem } from '@/lib/hooks/use-inventory';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import {
-  AlertCircle,
-  ChevronRight,
-  Phone,
-  Tag,
-  ZoomIn,
-} from 'lucide-react';
-
-// Lazy load Lightbox and its plugins - only loads when user opens lightbox (~45KB saved from initial bundle)
-const LightboxComponent = lazy(() => import('yet-another-react-lightbox'));
-import 'yet-another-react-lightbox/styles.css';
-
-// Wrapper component for lazy-loaded Lightbox with Zoom plugin
-function LightboxWithZoom({
-  open,
-  close,
-  index,
-  slides
-}: {
-  open: boolean;
-  close: () => void;
-  index: number;
-  slides: { src: string }[]
-}) {
-  const [ZoomPlugin, setZoomPlugin] = useState<any>(null);
-
-  // Load the Zoom plugin when the component mounts
-  useState(() => {
-    import('yet-another-react-lightbox/plugins/zoom').then(mod => {
-      setZoomPlugin(() => mod.default);
-    });
-  });
-
-  return (
-    <LightboxComponent
-      open={open}
-      close={close}
-      index={index}
-      slides={slides}
-      plugins={ZoomPlugin ? [ZoomPlugin] : []}
-    />
-  );
-}
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { db } from '@/lib/db';
+import InventoryItemClient, { InventoryItemData } from './InventoryItemClient';
 
 interface InventoryPageProps {
   params: Promise<{
@@ -64,251 +14,192 @@ interface InventoryPageProps {
   }>;
 }
 
-export default function InventoryItemPage({ params }: InventoryPageProps) {
-  const { slug } = use(params);
-  const { data, isLoading, error } = useInventoryItem(slug);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+// Fetch inventory item data
+async function getInventoryItem(slug: string): Promise<InventoryItemData | null> {
+  try {
+    const query = `
+      SELECT
+        slug,
+        year,
+        brand,
+        model,
+        condition,
+        advertised_price,
+        optimized_images,
+        category,
+        description,
+        title,
+        status,
+        web_description
+      FROM inventory
+      WHERE slug = $1
+      LIMIT 1
+    `;
 
-  if (isLoading) {
-    return (
-      <div className="container mx-auto py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <Skeleton className="h-6 w-64 mb-8" />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <Skeleton className="h-96 w-full" />
-            <div className="space-y-4">
-              <Skeleton className="h-8 w-32" />
-              <Skeleton className="h-12 w-3/4" />
-              <Skeleton className="h-10 w-1/3" />
-              <Skeleton className="h-6 w-32" />
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    const result = await db.query(query, [slug]);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+    const displayTitle = row.title || `${row.year} ${row.brand} ${row.model}`.trim();
+
+    // Map images to simple array of URLs
+    let images: string[] = [];
+    if (row.optimized_images && Array.isArray(row.optimized_images)) {
+      images = row.optimized_images.map((img: any) => img.fileUrl);
+    }
+
+    return {
+      id: row.slug,
+      slug: row.slug,
+      title: displayTitle,
+      equipmentType: row.category,
+      year: row.year,
+      manufacturer: row.brand,
+      model: row.model,
+      price: row.advertised_price ? `$${Number(row.advertised_price).toLocaleString()}` : null,
+      condition: row.condition,
+      description: row.description ? (row.description.length > 150 ? row.description.substring(0, 150) + '...' : row.description) : null,
+      fullDescription: row.web_description || row.description,
+      images: images,
+      firstImage: images.length > 0 ? images[0] : null,
+      salesStatus: row.status
+    };
+  } catch (error) {
+    console.error('Error fetching inventory item:', error);
+    return null;
+  }
+}
+
+// Generate dynamic metadata for SEO
+export async function generateMetadata({ params }: InventoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const item = await getInventoryItem(slug);
+
+  if (!item) {
+    return {
+      title: 'Item Not Found | I90 Equipment',
+    };
   }
 
-  if (error || !data?.success) {
-    return (
-      <div className="container mx-auto py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-              {error instanceof Error ? error.message : 'Failed to load inventory item'}
-            </AlertDescription>
-          </Alert>
-        </div>
-      </div>
-    );
+  const title = `${item.title} for Sale | I90 Equipment Montana`;
+  const description = item.description
+    ? `${item.description} Available at I90 Equipment in Belgrade, MT. Call (406) 939-2153.`
+    : `${item.title} available at I90 Equipment in Belgrade, Montana. Quality heavy equipment with financing available. Call (406) 939-2153.`;
+
+  return {
+    title,
+    description,
+    keywords: `${item.title}, ${item.equipmentType || 'trailer'} for sale Montana, ${item.manufacturer || ''} ${item.model || ''}, heavy equipment Belgrade MT`.trim(),
+    openGraph: {
+      title: `${item.title} for Sale`,
+      description,
+      type: 'website',
+      url: `https://i90equipment.com/inventory/${item.slug}`,
+      images: item.firstImage ? [
+        {
+          url: item.firstImage,
+          width: 1374,
+          height: 920,
+          alt: item.title,
+        }
+      ] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${item.title} for Sale`,
+      description,
+      images: item.firstImage ? [item.firstImage] : undefined,
+    },
+  };
+}
+
+export default async function InventoryItemPage({ params }: InventoryPageProps) {
+  const { slug } = await params;
+  const item = await getInventoryItem(slug);
+
+  if (!item) {
+    notFound();
   }
 
-  const item = data.data;
+  // Product schema for rich snippets
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: item.title,
+    description: item.description || item.fullDescription,
+    image: item.images,
+    brand: item.manufacturer ? {
+      '@type': 'Brand',
+      name: item.manufacturer,
+    } : undefined,
+    offers: {
+      '@type': 'Offer',
+      url: `https://i90equipment.com/inventory/${item.slug}`,
+      priceCurrency: 'USD',
+      price: item.price ? item.price.replace(/[$,]/g, '') : undefined,
+      availability: 'https://schema.org/InStock',
+      itemCondition: item.condition === 'New'
+        ? 'https://schema.org/NewCondition'
+        : 'https://schema.org/UsedCondition',
+      seller: {
+        '@type': 'LocalBusiness',
+        name: 'I90 Equipment',
+        telephone: '+1-406-939-2153',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '70 Pipkin Way',
+          addressLocality: 'Belgrade',
+          addressRegion: 'MT',
+          postalCode: '59714',
+          addressCountry: 'US',
+        },
+      },
+    },
+    category: item.equipmentType,
+  };
 
-  const quickStats = [
-    { label: 'Status', value: item.salesStatus, icon: Tag },
-  ].filter((stat) => stat.value);
+  // BreadcrumbList schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://i90equipment.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Inventory',
+        item: 'https://i90equipment.com/inventory',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: item.title,
+        item: `https://i90equipment.com/inventory/${item.slug}`,
+      },
+    ],
+  };
 
   return (
     <>
-      {/* Product Hero Section */}
-      <div className="bg-gradient-to-b from-muted/40 via-background to-background">
-        <div className="container mx-auto py-12 px-4">
-          <div className="max-w-6xl mx-auto space-y-10">
-            <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <ChevronRight className="h-4 w-4" />
-              <Link href="/inventory" className="hover:text-foreground transition-colors">
-                Inventory
-              </Link>
-              <ChevronRight className="h-4 w-4" />
-              <span className="text-foreground font-medium">{item.title}</span>
-            </nav>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Left Column: Image Gallery */}
-              <div className="space-y-4">
-                {/* Main Image */}
-                <div
-                  className="relative w-full rounded-lg overflow-hidden shadow-lg cursor-pointer group"
-                  style={{ aspectRatio: '1374 / 920' }}
-                  onClick={() => setLightboxOpen(true)}
-                >
-                  {item.images && item.images.length > 0 ? (
-                    <>
-                      <Image
-                        src={item.images[selectedImageIndex]}
-                        alt={item.title}
-                        fill
-                        priority
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                      />
-                      {/* Zoom Icon Indicator */}
-                      <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white p-2 rounded-full group-hover:bg-black/80 transition-colors z-10">
-                        <ZoomIn className="h-5 w-5" />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <span className="text-muted-foreground">No image available</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Thumbnail Navigation */}
-                {item.images && item.images.length > 1 && (
-                  <div className="flex gap-2 overflow-x-auto pb-2">
-                    {item.images.map((imageUrl: string, index: number) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedImageIndex(index)}
-                        className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                          ? 'border-primary shadow-md'
-                          : 'border-transparent hover:border-gray-300'
-                          }`}
-                      >
-                        <Image
-                          src={imageUrl}
-                          alt={`${item.title} thumbnail ${index + 1}`}
-                          fill
-                          sizes="80px"
-                          className="object-cover"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Right Column: Product Details */}
-              <div className="flex flex-col gap-6">
-                {/* Product Title */}
-                <h1 className="text-4xl font-bold text-foreground leading-tight">
-                  {item.title}
-                </h1>
-
-                {/* Product Price */}
-                {item.price && (
-                  <div className="text-4xl font-bold text-primary">
-                    {item.price}
-                  </div>
-                )}
-
-                {item.description && (
-                  <p className="text-muted-foreground text-lg leading-relaxed">
-                    {item.description}
-                  </p>
-                )}
-
-                {quickStats.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {quickStats.map(({ label, value, icon: Icon }) => (
-                      <div key={label} className="rounded-2xl border bg-card/80 p-4 shadow-sm">
-                        <div className="flex items-center gap-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                          <Icon className="h-4 w-4 text-primary" />
-                          {label}
-                        </div>
-                        <div className="mt-2 text-lg font-semibold text-foreground">{value}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-col md:flex-row gap-3 mt-4">
-                  <Button asChild size="lg" className="flex-1">
-                    <a href="tel:+14069392153" className="flex items-center justify-center gap-2">
-                      <Phone className="h-5 w-5" />
-                      Call now: (406) 939-2153
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" className="flex-1" asChild>
-                    <a href="#contact-form">Request Info</a>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Description Section */}
-      <div className="bg-muted/30">
-        <div className="container mx-auto py-16 px-4">
-          <div className="max-w-4xl mx-auto space-y-8">
-            {/* Description */}
-            {item.fullDescription && (
-              <Card>
-                <CardContent className="pt-6">
-                  <div
-                    className="prose max-w-none"
-                    dangerouslySetInnerHTML={{ __html: item.fullDescription }}
-                  />
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Form Section */}
-      <div className="bg-muted">
-        <div className="container mx-auto py-20 px-4">
-          <div className="max-w-3xl mx-auto">
-            <div id="contact-form">
-              <h2 className="text-2xl font-bold mb-6 text-center">Interested in this equipment?</h2>
-              <Card>
-                <CardContent className="p-0">
-                  <iframe
-                    src="https://links.resultreach.com/widget/form/9fY8ydtCiOWoUKgu7aXm"
-                    style={{ width: '100%', height: '599px', border: 'none', borderRadius: '3px' }}
-                    id="inline-9fY8ydtCiOWoUKgu7aXm"
-                    data-layout="{'id':'INLINE'}"
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="Contact Form"
-                    data-height="599"
-                    data-layout-iframe-id="inline-9fY8ydtCiOWoUKgu7aXm"
-                    data-form-id="9fY8ydtCiOWoUKgu7aXm"
-                    title="Contact Form"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Lightbox Modal - dynamically loaded only when opened */}
-      {lightboxOpen && item.images && item.images.length > 0 && (
-        <Suspense fallback={null}>
-          <LightboxWithZoom
-            open={lightboxOpen}
-            close={() => setLightboxOpen(false)}
-            index={selectedImageIndex}
-            slides={item.images.map((imageUrl: string) => ({ src: imageUrl }))}
-          />
-        </Suspense>
-      )}
-
-      {/* Form Embed Script */}
-      <Script
-        src="https://links.resultreach.com/js/form_embed.js"
-        strategy="lazyOnload"
+      {/* Product Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
+      {/* Breadcrumb Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <InventoryItemClient item={item} />
     </>
   );
 }

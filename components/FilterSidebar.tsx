@@ -85,10 +85,19 @@ export function FilterSidebar({
                 key={category}
                 variant="secondary"
                 className="px-3 py-1 gap-1 cursor-pointer hover:bg-secondary/80"
+                role="button"
+                tabIndex={0}
                 onClick={() => handleRemoveFilter('category', category)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleRemoveFilter('category', category);
+                  }
+                }}
+                aria-label={`Remove ${category} filter`}
               >
                 {category}
-                <X className="h-3 w-3" />
+                <X className="h-3 w-3" aria-hidden="true" />
               </Badge>
             ))}
             {filters.conditions.map((condition) => (
@@ -96,10 +105,19 @@ export function FilterSidebar({
                 key={condition}
                 variant="secondary"
                 className="px-3 py-1 gap-1 cursor-pointer hover:bg-secondary/80"
+                role="button"
+                tabIndex={0}
                 onClick={() => handleRemoveFilter('condition', condition)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleRemoveFilter('condition', condition);
+                  }
+                }}
+                aria-label={`Remove ${condition} filter`}
               >
                 {condition}
-                <X className="h-3 w-3" />
+                <X className="h-3 w-3" aria-hidden="true" />
               </Badge>
             ))}
           </div>

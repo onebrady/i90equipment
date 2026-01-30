@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -66,9 +67,12 @@ const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center">
-            <img
+            <Image
               src="/assets/i90-equipment-logo-header.webp"
               alt="I90 Equipment - Montana's Premier Heavy-Duty Trailer Dealer"
+              width={180}
+              height={48}
+              priority
               className="h-12 w-auto"
             />
           </a>
