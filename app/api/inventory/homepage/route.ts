@@ -71,20 +71,12 @@ export async function GET() {
       },
       {
         headers: {
-          'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=${revalidate * 2}`,
+          'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=60`,
         },
       }
     );
   } catch (error) {
     console.error('Error fetching homepage inventory:', error);
-    // Write error to file for debugging
-    try {
-      const fs = require('fs');
-      fs.writeFileSync('debug_error.txt', `Error: ${error instanceof Error ? error.message : String(error)}\nStack: ${error instanceof Error ? error.stack : ''}`);
-    } catch (e) {
-      console.error('Failed to write debug error:', e);
-    }
-
     return NextResponse.json(
       {
         success: false,

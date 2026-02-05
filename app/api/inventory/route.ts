@@ -66,7 +66,7 @@ export async function GET() {
       },
       {
         headers: {
-          'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=${revalidate * 2}`,
+          'Cache-Control': `public, s-maxage=${revalidate}, stale-while-revalidate=60`,
         },
       }
     );

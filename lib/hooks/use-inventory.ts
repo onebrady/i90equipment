@@ -50,16 +50,16 @@ export function useInventory() {
 
       return response.json();
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-    refetchOnWindowFocus: false, // Don't refetch on window focus since data changes infrequently
-    refetchOnMount: false, // Don't refetch on mount if data exists
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 }
 
 /**
  * Fetch a single inventory item by ID
- * Cached for 10 minutes on client side
+ * Cached for 5 minutes on client side
  */
 export function useInventoryItem(id: string | null | undefined) {
   return useQuery<InventoryItemResponse>({
@@ -76,16 +76,16 @@ export function useInventoryItem(id: string | null | undefined) {
       return response.json();
     },
     enabled: !!id, // Only run query if ID is provided
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    gcTime: 20 * 60 * 1000, // 20 minutes
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 15 * 60 * 1000, // 15 minutes
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 }
 
 /**
  * Fetch "In Stock" inventory for homepage
- * Cached for 5 minutes on client side
+ * Cached for 2 minutes on client side
  */
 export function useHomepageInventory() {
   return useQuery<InventoryResponse>({
@@ -99,9 +99,9 @@ export function useHomepageInventory() {
 
       return response.json();
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 }
